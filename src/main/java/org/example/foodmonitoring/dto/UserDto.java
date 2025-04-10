@@ -1,8 +1,11 @@
 package org.example.foodmonitoring.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class UserDto {

@@ -1,6 +1,10 @@
 package org.example.foodmonitoring.controller;
 
+import org.example.foodmonitoring.dto.UserDto;
+import org.example.foodmonitoring.entity.Role;
 import org.example.foodmonitoring.service.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -16,5 +20,10 @@ public class AuthController {
     public ResponseEntity<String> register(@RequestBody UserDto userDto) {
         userService.registerUser(userDto.getUsername(), userDto.getPassword(), Role.USER);
         return ResponseEntity.ok("Пользователь успешно зарегистрирован");
+    }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateProfile(@PathVariable Long id, @RequestBody UserDto userDto) {
+        userService.updateUser(id, userDto.getUsername(), userDto.getPassword());
+        return ResponseEntity.ok("Профиль пользователя успешно обновлен");
     }
 }

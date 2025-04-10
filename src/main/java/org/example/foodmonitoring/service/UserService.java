@@ -3,6 +3,8 @@ package org.example.foodmonitoring.service;
 import org.example.foodmonitoring.entity.Role;
 import org.example.foodmonitoring.entity.User;
 import org.example.foodmonitoring.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
@@ -24,5 +26,16 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         user.setRole(role);
         return userRepository.save(user);
+    }
+
+    public void updateUser(Long id, String username, String password) {
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));
+        if (username != null && !username.isEmpty()) {
+            user.setUsername(username);
+        }
+        if (password != null && !password.isEmpty()) {
+            user.setPassword(passwordEncoder.encode(password));
+        }
+        userRepository.save(user);
     }
 }
