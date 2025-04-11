@@ -21,7 +21,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // Flyway
-    //implementation 'org.flywaydb:flyway-core'
+    implementation 'org.liquibase:liquibase-core'
 
     // Database
     implementation 'org.postgresql:postgresql:42.7.2'

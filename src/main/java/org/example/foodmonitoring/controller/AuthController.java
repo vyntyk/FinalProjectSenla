@@ -5,6 +5,7 @@ import org.example.foodmonitoring.entity.Role;
 import org.example.foodmonitoring.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -25,5 +26,11 @@ public class AuthController {
     public ResponseEntity<String> updateProfile(@PathVariable Long id, @RequestBody UserDto userDto) {
         userService.updateUser(id, userDto.getUsername(), userDto.getPassword());
         return ResponseEntity.ok("Профиль пользователя успешно обновлен");
+    }
+    @PostMapping("/login")
+    public RedirectView login(@RequestBody UserDto userDto) {
+        // Здесь можно добавить логику аутентификации
+        // Например, проверка имени пользователя и пароля
+        return new RedirectView("/success");
     }
 }
