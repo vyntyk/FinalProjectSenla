@@ -24,3 +24,9 @@ CREATE TABLE stores (
     address VARCHAR(255) NOT NULL
 );
 --rollback DROP TABLE stores;
+
+--changeset vyntyk:4
+UPDATE public.users SET
+username = 'user', password = '123', role = 'ADMIN' WHERE id = 1;
+--rollback UPDATE public.users SET
+
