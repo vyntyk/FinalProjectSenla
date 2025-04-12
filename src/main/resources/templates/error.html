@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Error</title>
+</head>
+<body>
+    <h1>Ошибка</h1>
+    <p>Статус: <span th:text="${status}"></span></p>
+    <p>Сообщение: <span th:text="${message}"></span></p>
+    <p>Путь: <span th:text="${path}"></span></p>
+    <p>Время: <span th:text="${timestamp}"></span></p>
+</body>
+</html>

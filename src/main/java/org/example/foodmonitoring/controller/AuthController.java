@@ -1,14 +1,12 @@
 package org.example.foodmonitoring.controller;
 
-import org.example.foodmonitoring.dto.UserDto;
-import org.example.foodmonitoring.entity.Role;
-import org.example.foodmonitoring.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.example.foodmonitoring.service.UserService;
+import org.example.foodmonitoring.entity.Role;
 
-@RestController
-@RequestMapping("/api/auth")
+@Controller
 public class AuthController {
 
     private final UserService userService;
@@ -17,20 +15,48 @@ public class AuthController {
         this.userService = userService;
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login"; // Возвращает имя шаблона страницы логина
+    }
+
+    @GetMapping("/register")
+    public String registerPage() {
+        return "register";
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserDto userDto) {
-        userService.registerUser(userDto.getUsername(), userDto.getPassword(), Role.USER);
-        return ResponseEntity.ok("Пользователь успешно зарегистрирован");
+    public String registerUser(
+            @RequestParam String username,
+            @RequestParam String password,
+            Model model
+    ) {
+        try {
+            userService.registerUser(username, password, Role.USER);
+            return "redirect:/login";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "register";
+        }
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateProfile(@PathVariable Long id, @RequestBody UserDto userDto) {
-        userService.updateUser(id, userDto.getUsername(), userDto.getPassword());
-        return ResponseEntity.ok("Профиль пользователя успешно обновлен");
+
+    @PostMapping("/auth/login")
+    public String loginUser(
+            @RequestParam String username,
+            @RequestParam String password,
+            Model model
+    ) {
+        try {
+            userService.authenticateUser(username, password);
+            return "redirect:/home"; // Перенаправление на главную страницу после успешного входа
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "login";
+        }
     }
-    @PostMapping("/login")
-    public RedirectView login(@RequestBody UserDto userDto) {
-        // Здесь можно добавить логику аутентификации
-        // Например, проверка имени пользователя и пароля
-        return new RedirectView("/success");
+
+    @GetMapping("/")
+    public String rootRedirect() {
+        return "redirect:/login"; // Перенаправление на страницу логина при заходе на localhost
     }
 }

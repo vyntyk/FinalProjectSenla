@@ -21,6 +21,9 @@ public class UserService {
         if (userRepository.findByUsername(username).isPresent()) {
             throw new IllegalArgumentException("Пользователь с таким именем уже существует");
         }
+        if (role == null) {
+            throw new IllegalArgumentException("Роль пользователя не может быть null");
+        }
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
@@ -37,5 +40,14 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(password));
         }
         userRepository.save(user);
+    }
+
+    public User authenticateUser(String username, String password) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Неверный логин или пароль"));
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("Неверный логин или пароль");
+        }
+        return user;
     }
 }
