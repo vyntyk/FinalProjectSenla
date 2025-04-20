@@ -1,90 +1,102 @@
 package org.example.foodmonitoring.service;
 
+import jakarta.transaction.Transactional;
+import org.example.foodmonitoring.dto.UserDTO;
 import org.example.foodmonitoring.dto.UserRequest;
 import org.example.foodmonitoring.dto.UserResponse;
+import org.example.foodmonitoring.entity.Role;
 import org.example.foodmonitoring.entity.User;
-import org.example.foodmonitoring.exception.UserNotFoundException;
+import org.example.foodmonitoring.repository.RoleRepository;
 import org.example.foodmonitoring.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.foodmonitoring.security.PasswordEncoderProvider;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoderProvider encoderProvider;
 
-    // Создание пользователя
-    @Transactional
-    public UserResponse createUser(UserRequest userRequest) {
-        User user = new User();
-        user.setUsername(userRequest.getName());
-        User savedUser = userRepository.save(user);
-        return mapToResponse(savedUser);
+    public UserService(UserRepository userRepository,
+                       RoleRepository roleRepository,
+                       PasswordEncoderProvider encoderProvider) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.encoderProvider = encoderProvider;
     }
 
-    // Получение всех пользователей
-    @Transactional(readOnly = true)
+    @Transactional
+    public UserResponse createUser(UserRequest request) {
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(encoderProvider.getEncoder().encode(request.getPassword()));
+        Role role = roleRepository.findByName(request.getRole()).orElseThrow();
+        user.setRoles(Set.of(role));
+        userRepository.save(user);
+
+        return toResponse(user);
+    }
+
     public List<UserResponse> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(this::mapToResponse)
+        return userRepository.findAll()
+                .stream()
+                .map(this::toResponse)
                 .collect(Collectors.toList());
     }
 
-    // Удаление пользователя по ID
+    @Transactional
+    public void register(UserDTO dto) {
+        if (userRepository.findByUsername(dto.getUsername()).isPresent()) {
+            throw new IllegalArgumentException("User already exists");
+        }
+
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        user.setEmail(dto.getEmail());
+        user.setPassword(encoderProvider.getEncoder().encode(dto.getPassword()));
+
+        Role role = roleRepository.findByName(dto.getRole()).orElseThrow();
+        user.setRoles(Set.of(role));
+
+        userRepository.save(user);
+    }
+
     @Transactional
     public boolean deleteUser(Long id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
+        Optional<User> optional = userRepository.findById(id);
+        if (optional.isPresent()) {
+            userRepository.delete(optional.get());
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
-    // Редактирование пользователя по ID
     @Transactional
-    public UserResponse updateUser(Long id, UserRequest userRequest) throws UserNotFoundException {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setUsername(userRequest.getName());
-            User updatedUser = userRepository.save(user);
-            return mapToResponse(updatedUser);
-        } else {
-            throw new UserNotFoundException(id);
-        }
+    public UserResponse updateUser(Long id, UserRequest request) {
+        User user = userRepository.findById(id).orElseThrow();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(encoderProvider.getEncoder().encode(request.getPassword()));
+
+        Role role = roleRepository.findByName(request.getRole()).orElseThrow();
+        user.setRoles(Set.of(role));
+
+        return toResponse(user);
     }
 
-    // Преобразование сущности Users в DTO UserResponse
-    private UserResponse mapToResponse(User user) {
-        UserResponse response = new UserResponse();
-        response.setId(user.getId());
-        response.setName(user.getName());
-        response.setEmail(user.getEmail());
-        return response;
-    }
-
-    public void createUser(String username, String password) {
-        if (userRepository.findByUsername(username).isEmpty()) {
-            User user = new User();
-            user.setUsername(username);
-            user.setPassword(password);
-            userRepository.save(user);
-        }
-    }
-
-    public void authenticateUser(String username, String password) {
-        if (userRepository.findByUsername(username).isEmpty()) {
-            User user = new User();
-            user.setUsername(username);
-            user.setPassword(password);
-            userRepository.save(user);
-        }
+    private UserResponse toResponse(User user) {
+        return new UserResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getRoles().stream().map(Role::getName).toList()
+        );
     }
 }
