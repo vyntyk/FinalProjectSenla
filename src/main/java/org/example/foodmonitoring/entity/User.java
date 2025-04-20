@@ -26,5 +26,11 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    // Геттеры и сеттеры
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "email")
+    private String email;
+
+// Геттеры и сеттеры
 }
