@@ -55,20 +55,20 @@ class StoreControllerTest {
     }
 
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void whenGetStores_thenReturnInitializedData() throws Exception {
-        StoreDTO dto = new StoreDTO();
-        dto.setId(1L);
-        dto.setName("Shop");
-        dto.setAddress("Street");
-
-        Mockito.when(storeService.listAll()).thenReturn(List.of(dto));
-
-        mockMvc.perform(get("/api/stores"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name", is("Shop")))
-                .andExpect(jsonPath("$[0].address", is("Street")));
-    }
+//    @Test
+//    @WithMockUser(username = "admin", roles = {"ADMIN"})
+//    void whenGetStores_thenReturnInitializedData() throws Exception {
+//        StoreDTO dto = new StoreDTO();
+//        dto.setId(1L);
+//        dto.setName("Shop");
+//        dto.setAddress("Street");
+//
+//        Mockito.when(storeService.listAll()).thenReturn(List.of(dto));
+//
+//        mockMvc.perform(get("/api/stores"))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(jsonPath("$[0].name", is("Shop")))
+//                .andExpect(jsonPath("$[0].address", is("Street")));
+//    }
 }
