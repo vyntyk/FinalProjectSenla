@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 @Configuration
 @EnableWebSecurity
@@ -46,6 +48,17 @@ public class SecurityConfig {
                 http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.authenticationProvider(authProvider());
         return authenticationManagerBuilder.build();
+    }
+
+    @Bean
+    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedPercent(true); // Разрешить символы % в URL
+        firewall.setAllowUrlEncodedSlash(true);  // Если нужно разрешить закодированные слэши
+        firewall.setAllowBackSlash(true);        // Если нужно разрешить обратные слэши
+        firewall.setAllowSemicolon(true);        // Если нужно разрешить точки с запятой
+        firewall.setAllowUrlEncodedPeriod(true); // Если нужно разрешить закодированные точки
+        return firewall;
     }
 
     @Bean

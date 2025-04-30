@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Date;
+import java.util.Base64;
+
+import jakarta.annotation.PostConstruct;
 
 @Component
 public class JwtTokenProvider {
@@ -18,6 +21,12 @@ public class JwtTokenProvider {
 
     @Value("${jwt.expiration}")
     private long validityInMilliseconds;
+
+    @PostConstruct
+    protected void init() {
+        // Преобразуем секретный ключ в Base64, если он не в этом формате
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    }
 
     public String generateToken(UserDetails userDetails) {
         Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
