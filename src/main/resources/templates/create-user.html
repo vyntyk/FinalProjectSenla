@@ -7,18 +7,33 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h1>Create New User</h1>
+    <h1>Создание нового пользователя</h1>
+
+    <!-- Сообщение об успехе -->
+    <div th:if="${param.success}" class="alert alert-success" role="alert">
+        Пользователь успешно создан!
+    </div>
+
+    <!-- Сообщение об ошибке -->
+    <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}">
+        Ошибка при создании пользователя
+    </div>
+
     <form th:action="@{/users/create}" method="post">
         <div class="form-group">
-            <label for="name">Name</label>
+            <label for="name">Имя</label>
             <input type="text" class="form-control" id="name" name="name" required>
         </div>
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" name="email" required>
         </div>
-        <button type="submit" class="btn btn-primary">Create User</button>
+        <button type="submit" class="btn btn-primary">Создать пользователя</button>
     </form>
+
+    <div class="mt-3">
+        <a th:href="@{/logout}" class="btn btn-secondary">Выйти</a>
+    </div>
 </div>
 </body>
 </html>
