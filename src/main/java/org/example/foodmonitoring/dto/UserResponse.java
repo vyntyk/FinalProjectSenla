@@ -16,5 +16,20 @@ public class UserResponse {
         this.roles = roles;
     }
 
-    // Getters and Setters
+    // Getters
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
 }

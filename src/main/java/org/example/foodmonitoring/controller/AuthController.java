@@ -3,7 +3,6 @@ package org.example.foodmonitoring.controller;
 import org.example.foodmonitoring.dto.UserDTO;
 import org.example.foodmonitoring.service.UserService;
 import org.example.foodmonitoring.security.JwtTokenProvider;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

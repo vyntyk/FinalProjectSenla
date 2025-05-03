@@ -1,8 +1,7 @@
 package org.example.foodmonitoring.controller;
 
-import org.example.foodmonitoring.entity.Store;
-import org.example.foodmonitoring.security.JwtTokenProvider;
-import org.example.foodmonitoring.service.StoreService;
+import org.example.foodmonitoring.entity.Category;
+import org.example.foodmonitoring.service.CategoryService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -25,60 +24,52 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.context.annotation.Import;
 
-@WebMvcTest(controllers = StoreController.class)
+@WebMvcTest(controllers = CategoryController.class)
 @Import(org.example.foodmonitoring.config.TestSecurityConfig.class)
-class StoreControllerTest {
+class CategoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private StoreService storeService;
-
-    @MockBean
-    private JwtTokenProvider jwtTokenProvider;
+    private CategoryService categoryService;
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void whenGetAllStores_thenReturnStoresList() throws Exception {
+    void whenGetAllCategories_thenReturnCategoriesList() throws Exception {
         // Arrange
-        Store store = new Store();
-        store.setId(1L);
-        store.setName("Test Store");
-        store.setAddress("Test Address");
+        Category category = new Category();
+        category.setId(1L);
+        category.setName("Test Category");
 
-        Mockito.when(storeService.getAllStores()).thenReturn(List.of(store));
+        Mockito.when(categoryService.getAllCategories()).thenReturn(List.of(category));
 
         // Act & Assert
-        mockMvc.perform(get("/api/stores"))
+        mockMvc.perform(get("/api/categories"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].name", is("Test Store")))
-                .andExpect(jsonPath("$[0].address", is("Test Address")));
+                .andExpect(jsonPath("$[0].name", is("Test Category")));
     }
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void whenAddStore_thenReturnSuccessMessage() throws Exception {
+    void whenAddCategory_thenReturnSuccessMessage() throws Exception {
         // Arrange
-        Mockito.doNothing().when(storeService).addStore(anyString(), anyString());
+        Category category = new Category();
+        category.setId(1L);
+        category.setName("Test Category");
 
-        String json = """
-        {
-          "name": "Test Store",
-          "address": "Test Address"
-        }
-        """;
+        Mockito.when(categoryService.addCategory(anyString())).thenReturn(category);
 
         // Act & Assert
-        mockMvc.perform(post("/api/stores")
+        mockMvc.perform(post("/api/categories")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
+                .content("\"Test Category\""))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string("Торговая точка добавлена"));
+                .andExpect(content().string("Категория добавлена"));
     }
 }
