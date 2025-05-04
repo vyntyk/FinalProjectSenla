@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>0750f832-7293-4b9d-97bd-6b49ba4f8035.DATABASE:foodmonitoring</OriginalElement>
+  <nodes>
+    <node x="298.5" y="52.5">0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.databasechangelog</node>
+    <node x="-73.5" y="860.0">0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.price_history</node>
+    <node x="-10.0" y="-188.0">0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.users</node>
+    <node x="177.0" y="476.5">0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.users_roles</node>
+    <node x="16.0" y="184.0">0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.stores</node>
+    <node x="265.5" y="896.0">0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.categories</node>
+    <node x="-115.5" y="452.0">0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.products</node>
+    <node x="86.0" y="692.0">0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.databasechangeloglock</node>
+    <node x="205.5" y="-164.0">0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.roles</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.users_roles" target="0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.users" relationship="REFERENCES">
+      <point x="-32.5" y="-43.5" />
+      <point x="209.5" y="160.0" />
+      <point x="82.0" y="160.0" />
+      <point x="0.0" y="68.0" />
+    </edge>
+    <edge source="0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.users_roles" target="0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.roles" relationship="REFERENCES">
+      <point x="32.5" y="-43.5" />
+      <point x="274.5" y="40.0" />
+      <point x="282.0" y="40.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.price_history" target="0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.stores" relationship="REFERENCES">
+      <point x="47.75" y="-80.0" />
+      <point x="69.75" y="680.0" />
+      <point x="102.0" y="680.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.price_history" target="0750f832-7293-4b9d-97bd-6b49ba4f8035.TABLE:foodmonitoring.public.products" relationship="REFERENCES">
+      <point x="-47.75" y="-80.0" />
+      <point x="-25.75" y="840.0" />
+      <point x="-18.0" y="840.0" />
+      <point x="0.0" y="68.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.5602605863192183" showDependencies="false" x="195.0" y="416.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+

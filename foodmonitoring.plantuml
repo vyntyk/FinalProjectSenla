@@ -1,0 +1,70 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class categories {
+   name: varchar(255)
+   id: bigint
+}
+class databasechangelog {
+   id: varchar(255)
+   author: varchar(255)
+   filename: varchar(255)
+   dateexecuted: timestamp
+   orderexecuted: integer
+   exectype: varchar(10)
+   md5sum: varchar(35)
+   description: varchar(255)
+   comments: varchar(255)
+   tag: varchar(255)
+   liquibase: varchar(20)
+   contexts: varchar(255)
+   labels: varchar(255)
+   deployment_id: varchar(10)
+}
+class databasechangeloglock {
+   locked: boolean
+   lockgranted: timestamp
+   lockedby: varchar(255)
+   id: integer
+}
+class price_history {
+   price: numeric(38,2)
+   timestamp: timestamp(6)
+   product_id: bigint
+   store_id: bigint
+   id: bigint
+}
+class products {
+   category: varchar(255)
+   description: varchar(255)
+   name: varchar(255)
+   id: bigint
+}
+class roles {
+   name: varchar(255)
+   id: bigint
+}
+class stores {
+   name: varchar(255)
+   address: varchar(255)
+   id: bigint
+}
+class users {
+   username: varchar(255)
+   password: varchar(255)
+   email: varchar(255)
+   id: bigint
+}
+class users_roles {
+   user_id: bigint
+   role_id: bigint
+}
+
+price_history          -[#595959,plain]-^  products              : "product_id:id"
+price_history          -[#595959,plain]-^  stores                : "store_id:id"
+users_roles            -[#595959,plain]-^  roles                 : "role_id:id"
+users_roles            -[#595959,plain]-^  users                 : "user_id:id"
+@enduml
