@@ -2,6 +2,7 @@ package org.example.foodmonitoring.security;
 
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.Base64;
+import java.util.Collections;
 
 import jakarta.annotation.PostConstruct;
 
@@ -24,7 +26,6 @@ public class JwtTokenProvider {
 
     @PostConstruct
     protected void init() {
-        // Преобразуем секретный ключ в Base64, если он не в этом формате
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
@@ -55,5 +56,10 @@ public class JwtTokenProvider {
 
     public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public UserDetails loadUserByUsername(String username) {
+        // Заглушка: возвращаем пользователя с ролью USER
+        return new User(username, "", Collections.emptyList());
     }
 }

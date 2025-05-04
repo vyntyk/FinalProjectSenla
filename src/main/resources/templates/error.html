@@ -1,13 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Error</title>
+    <meta charset="UTF-8">
+    <title>Ошибка</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 50px;
+            background-color: #f5f5f5;
+        }
+        .error-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .error-header {
+            color: #d9534f;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .error-details {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .home-link {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Ошибка</h1>
-    <p>Статус: <span th:text="${status}"></span></p>
-    <p>Сообщение: <span th:text="${message}"></span></p>
-    <p>Путь: <span th:text="${path}"></span></p>
-    <p>Время: <span th:text="${timestamp}"></span></p>
+    <div class="container">
+        <div class="error-container">
+            <div class="error-header">
+                <h1>Произошла ошибка</h1>
+                <p>Пожалуйста, свяжитесь с администратором, если проблема сохраняется.</p>
+            </div>
+
+            <div class="error-details">
+                <p><strong>Статус:</strong> <span th:text="${status}">500</span></p>
+                <p><strong>Сообщение:</strong> <span th:text="${message}">Внутренняя ошибка сервера</span></p>
+                <p><strong>Путь:</strong> <span th:text="${path}">/error</span></p>
+                <p><strong>Время:</strong> <span th:text="${timestamp}">2023-01-01 12:00:00</span></p>
+            </div>
+
+            <div class="home-link text-center">
+                <a th:href="@{/login}" class="btn btn-primary">Вернуться на страницу входа</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
