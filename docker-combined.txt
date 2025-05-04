@@ -1,0 +1,53 @@
+# Combined Docker Configuration 
+ 
+This file contains both docker-compose.yml and Dockerfile configurations in one document. 
+ 
+## Docker Compose Configuration (docker-compose.yml) 
+ 
+```yaml 
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: food_monitoring_postgres
+    environment:
+      POSTGRES_DB: food_monitoring
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: food_monitoring_app
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/food_monitoring
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 1234
+
+volumes:
+  pgdata:
+``` 
+ 
+## Dockerfile Configuration (Dockerfile) 
+ 
+```dockerfile 
+FROM openjdk:17-jdk-slim
+VOLUME /tmp
+COPY build/libs/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+``` 
+ 
+## How to Use 
+ 
+1. Both files are already in the correct location and format 
+2. Run 'docker-compose up' to start the services 
