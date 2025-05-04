@@ -111,7 +111,7 @@
     <!-- Сообщение о выходе -->
     <div th:if="${logoutMessage}" class="message success" th:text="${logoutMessage}"></div>
 
-    <form th:action="@{/auth/login}" method="post">
+    <form th:action="@{/login}" method="post">
         <div class="form-group">
             <label for="username">Логин</label>
             <input type="text" id="username" name="username" placeholder="Введите ваш логин" required>
@@ -124,6 +124,10 @@
 
         <button type="submit">Войти</button>
     </form>
+
+    <div class="text-center mt-3">
+        <p>Нет аккаунта? <a th:href="@{/register}">Зарегистрироваться</a></p>
+    </div>
 </div>
 </body>
 </html>
