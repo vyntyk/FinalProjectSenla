@@ -21,13 +21,17 @@ public class WebController {
 
     @GetMapping("/login")
     public String loginPage(@RequestParam(value = "error", required = false) String error,
-                           @RequestParam(value = "logout", required = false) String logout,
-                           Model model) {
+                            @RequestParam(value = "logout", required = false) String logout,
+                            @RequestParam(value = "registered", required = false) String registered,
+                            Model model) {
         if (error != null) {
             model.addAttribute("errorMessage", "Неверное имя пользователя или пароль");
         }
         if (logout != null) {
             model.addAttribute("logoutMessage", "Вы успешно вышли из системы");
+        }
+        if (registered != null) {
+            model.addAttribute("successMessage", "Регистрация прошла успешно. Пожалуйста, войдите.");
         }
         return "login";
     }
@@ -38,12 +42,19 @@ public class WebController {
     }
 
     @PostMapping("/register")
-    public String registerUser(UserDTO userDTO, Model model) {
+    public String registerUser(@RequestParam String username,
+                               @RequestParam String email,
+                               @RequestParam String password,
+                               Model model) {
         try {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUsername(username);
+            userDTO.setEmail(email);
+            userDTO.setPassword(password);
             userService.register(userDTO);
             return "redirect:/login?registered";
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "Ошибка при регистрации: " + e.getMessage());
+            model.addAttribute("errorMessage", e.getMessage());
             return "register";
         }
     }
@@ -54,14 +65,13 @@ public class WebController {
     }
 
     @PostMapping("/users/create")
-    public String createUser(@RequestParam String name, 
-                            @RequestParam String email, 
-                            Model model) {
+    public String createUser(@RequestParam String name,
+                             @RequestParam String email,
+                             Model model) {
         try {
             UserDTO userDTO = new UserDTO();
             userDTO.setUsername(name);
             userDTO.setEmail(email);
-            // Generate a random password or use a default one
             userDTO.setPassword("defaultPassword");
             userService.register(userDTO);
             return "redirect:/create-user?success";
