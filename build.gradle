@@ -33,7 +33,7 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
     // Lombok
-    compileOnly 'org.projectlombok:lombok:1.18.30'
+     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 

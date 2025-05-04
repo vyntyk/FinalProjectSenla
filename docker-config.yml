@@ -4,8 +4,6 @@
 # 1. Copy this file to docker-compose.yml
 # 2. Run 'docker-compose up'
 
-version: '3.8'
-
 services:
   postgres:
     image: postgres:15
