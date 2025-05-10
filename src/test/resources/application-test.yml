@@ -12,6 +12,11 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema-h2.sql
+      data-locations: classpath:data-h2.sql
 
 jwt:
   secret: U29tZVNlY3JldEtleUluQmFzZTY0MTIzNDU2
