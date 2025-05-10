@@ -1,11 +1,9 @@
 plugins {
+    id 'org.springframework.boot' version '3.2.5' // или ваша версия
+    id 'io.spring.dependency-management' version '1.1.4'
     id 'java'
-    id 'org.springframework.boot' version '3.1.0'
-    id 'io.spring.dependency-management' version '1.1.0'
 }
 
-group = 'org.example'
-version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -20,14 +18,14 @@ dependencies {
     implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
-
     // MapStruct
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
-    // Swagger / OpenAPI
+    // Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 
+    // JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
@@ -37,10 +35,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
-    // Flyway
-    implementation 'org.liquibase:liquibase-core'
-
     // Database
+    implementation 'org.liquibase:liquibase-core'
     implementation 'org.postgresql:postgresql:42.7.2'
 
     // Validation
@@ -50,18 +46,36 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
+    testImplementation 'org.mockito:mockito-core:5.5.0'  // Изменено с mockito-junit-jupiter
     testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'com.h2database:h2'
 }
 
 bootJar {
-    enabled = true // Включаем создание JAR
+    enabled = true
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+    options.compilerArgs += [
+            '-Amapstruct.defaultComponentModel=spring'
+    ]
 }
+
 test {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        showExceptions true
+        showCauses true
+        showStackTraces true
+    }
+}
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
 }

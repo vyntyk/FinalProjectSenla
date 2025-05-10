@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/food_monitoring
+    url: jdbc:postgresql://localhost:5432/foodmonitoring
     username: postgres
     password: 1234
     driver-class-name: org.postgresql.Driver
