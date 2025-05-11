@@ -1,4 +1,4 @@
-name: foodmonitoring
+version: '3.8'
 
 services:
   postgres:
@@ -14,10 +14,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
+    image: vyntyk/food-monitoring:latest  # Используем скачанный образ
     container_name: foodmonitoring_app
     depends_on:
       - postgres
