@@ -1,5 +1,6 @@
 package org.example.foodmonitoring.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.foodmonitoring.dto.ProductDTO;
 import org.example.foodmonitoring.service.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Tag(name = "Контроллер продуктов", description = "Контроллер продуктов")
 @RestController
 @RequestMapping("/products")
 @Validated

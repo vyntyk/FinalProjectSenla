@@ -1,5 +1,6 @@
 package org.example.foodmonitoring.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.foodmonitoring.dto.UserDTO;
 import org.example.foodmonitoring.service.UserService;
 import org.example.foodmonitoring.security.JwtTokenProvider;
@@ -10,7 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
+@Tag(name = "Авторизация", description = "Контроллер для регистрации и авторизации пользователей")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

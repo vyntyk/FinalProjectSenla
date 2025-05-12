@@ -1,5 +1,6 @@
 package org.example.foodmonitoring.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.foodmonitoring.dto.PriceHistoryDTO;
 import org.example.foodmonitoring.service.PriceHistoryService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Tag(name = "Контроллер цены", description = "Контроллер для работы с ценами")
 @RestController
 @RequestMapping("/prices")
 @Validated

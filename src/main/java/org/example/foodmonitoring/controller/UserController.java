@@ -1,5 +1,6 @@
 package org.example.foodmonitoring.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.foodmonitoring.dto.UserRequest;
 import org.example.foodmonitoring.dto.UserResponse;
 import org.example.foodmonitoring.exception.UserNotFoundException;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Контроллер пользователя", description = "Работа с пользователями")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

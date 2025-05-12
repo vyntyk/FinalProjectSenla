@@ -1,19 +1,23 @@
 package org.example.foodmonitoring.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class UserRequest {
-
+    @Schema(description = "ИМЯ", example = "Ivan")
     @NotBlank
     private String username;
 
+    @Schema(description = "ПАРОЛЬ", example = "123456")
     @NotBlank
     private String password;
 
+    @Schema(description = "ПОЧТА", example = "ivan@mail.ru")
     @Email
     private String email;
 
+    @Schema(description = "РОЛЬ", example = "USER")
     @NotBlank
     private String role;
 

@@ -1,14 +1,21 @@
 package org.example.foodmonitoring.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
 public class ProductDTO {
+
+    @Schema(description = "Идентификатор продукта", example = "1")
     private Long id;
 
+    @Schema(description = "Название продукта", example = "Шоколад")
     @NotBlank
     private String name;
 
+    @Schema(description = "Категория продукта", example = "Молочные продукты")
     private String category;
+
+    @Schema(description = "Описание продукта", example = "Шоколадный батон")
     private String description;
 
     // getters/setters

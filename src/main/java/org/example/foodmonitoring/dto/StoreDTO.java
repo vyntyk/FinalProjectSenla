@@ -1,5 +1,6 @@
 package org.example.foodmonitoring.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -10,10 +11,15 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StoreDTO {
-    // getters/setters
+
+    @Schema(description = "Идентификатор магазина", example = "1")
     private Long id;
+
+    @Schema(description = "Название магазина", example = "Магазин 1")
     @NotBlank
     private String name;
+
+    @Schema(description = "Адрес магазина", example = "г. Москва, ул. Примерная, д. 1")
     private String address;
 
     public String getName() {

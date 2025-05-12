@@ -1,5 +1,6 @@
 package org.example.foodmonitoring.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.foodmonitoring.entity.Category;
 import org.example.foodmonitoring.service.CategoryService;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Категории", description = "Контроллер для работы с категориями")
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
