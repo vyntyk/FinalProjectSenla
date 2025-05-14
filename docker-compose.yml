@@ -1,9 +1,9 @@
-name: foodmonitoring
+name: foodmonitoring2
 
 services:
   postgres:
     image: postgres:15
-    container_name: foodmonitoring_postgres
+    container_name: foodmonitoring_postgres2
     environment:
       POSTGRES_DB: foodmonitoring
       POSTGRES_USER: postgres

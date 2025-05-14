@@ -15,8 +15,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    //implementation 'org.apache.tomcat.embed:tomcat-embed-core:11.0.3'
 
     // MapStruct
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
@@ -79,3 +79,4 @@ sourceSets {
         }
     }
 }
+
