@@ -70,7 +70,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   app:
-    image: vyntyk/food-monitoring:latest
+    image: vyntyk/food-monitoring:1.1
     container_name: foodmonitoring_app
     depends_on:
       - postgres
