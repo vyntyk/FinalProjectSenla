@@ -1,5 +1,6 @@
 package org.example.foodmonitoring.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.foodmonitoring.dto.PriceHistoryDTO;
 import org.example.foodmonitoring.service.PriceHistoryService;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Tag(name = "Контроллер цены", description = "Контроллер для работы с ценами")
 @RestController
+@SecurityRequirement(name = "JWT")
 @RequestMapping("/prices")
 @Validated
 public class PriceController {
@@ -23,11 +25,13 @@ public class PriceController {
         this.service = service;
     }
 
+    @SecurityRequirement(name = "JWT")
     @PostMapping
     public ResponseEntity<PriceHistoryDTO> add(@RequestBody @Validated PriceHistoryDTO dto) {
         return ResponseEntity.ok(service.addPrice(dto));
     }
 
+    @SecurityRequirement(name = "JWT")
     @GetMapping("/history")
     public ResponseEntity<List<PriceHistoryDTO>> history(
             @RequestParam Long productId,
@@ -36,6 +40,7 @@ public class PriceController {
         return ResponseEntity.ok(service.history(productId, from, to));
     }
 
+    @SecurityRequirement(name = "JWT")
     @GetMapping("/compare")
     public ResponseEntity<List<PriceHistoryDTO>> compare(
             @RequestParam Long productId,

@@ -1,5 +1,6 @@
 package org.example.foodmonitoring.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.foodmonitoring.dto.UserRequest;
 import org.example.foodmonitoring.dto.UserResponse;
@@ -13,12 +14,14 @@ import java.util.List;
 
 @Tag(name = "Контроллер пользователя", description = "Работа с пользователями")
 @RestController
+@SecurityRequirement(name = "JWT")
 @RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
+    @SecurityRequirement(name = "JWT")
     // Создание пользователя
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
@@ -26,6 +29,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @SecurityRequirement(name = "JWT")
     // Получение всех пользователей
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers() {
@@ -33,6 +37,7 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @SecurityRequirement(name = "JWT")
     // Удаление пользователя по ID
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
@@ -44,6 +49,7 @@ public class UserController {
         }
     }
 
+    @SecurityRequirement(name = "JWT")
     // Редактирование пользователя по ID
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(

@@ -1,5 +1,6 @@
 package org.example.foodmonitoring.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.example.foodmonitoring.dto.UserDTO;
 import org.example.foodmonitoring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+@SecurityRequirement(name = "JWT")
 @Controller
 public class WebController {
 
