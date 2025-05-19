@@ -1,5 +1,6 @@
 package org.example.foodmonitoring.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.foodmonitoring.entity.Store;
@@ -23,12 +24,22 @@ public class StoreController {
 
     @SecurityRequirement(name = "JWT")
     @GetMapping
+    @Operation(
+            summary = "Список торговых точек",
+            description = "Получение списка торговых точек",
+            tags = {"Stores"}
+    )
     public List<Store> getAllStores() {
         return storeService.getAllStores();
     }
 
     @SecurityRequirement(name = "JWT")
     @PostMapping
+    @Operation(
+            summary = "Добавление торговой точки",
+            description = "Добавление новой торговой точки",
+            tags = {"Stores"}
+    )
     public ResponseEntity<String> addStore(@RequestBody Store store) {
         storeService.addStore(store.getName(), store.getAddress());
         return ResponseEntity.ok("Торговая точка добавлена");

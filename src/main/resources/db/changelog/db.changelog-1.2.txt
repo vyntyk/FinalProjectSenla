@@ -10,8 +10,17 @@ ALTER TABLE stores
 ALTER TABLE products
     DROP COLUMN IF EXISTS price,
     DROP COLUMN IF EXISTS stock;
+-- Add category column if it doesn't exist
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                  WHERE table_name='products' AND column_name='category') THEN
+        ALTER TABLE products ADD COLUMN category VARCHAR(100);
+    END IF;
+END; $$
 --rollback ALTER TABLE products ADD COLUMN price NUMERIC(10,2) NOT NULL DEFAULT 0;
 --rollback ALTER TABLE products ADD COLUMN stock INT NOT NULL DEFAULT 0;
+--rollback ALTER TABLE products DROP COLUMN IF EXISTS category;
 
 --changeset vyntyk:1.2-create-price-history-table
 CREATE TABLE IF NOT EXISTS price_history (

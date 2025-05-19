@@ -1,5 +1,6 @@
 package org.example.foodmonitoring.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.foodmonitoring.entity.Category;
@@ -23,12 +24,23 @@ public class CategoryController {
 
     @SecurityRequirement(name = "JWT")
     @GetMapping
+    @Operation(
+            summary = "Получить все категории",
+            description = "Получает все категории продуктов",
+            tags = {"Categories"}
+    )
+
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
     @SecurityRequirement(name = "JWT")
     @PostMapping
+    @Operation(
+            summary = "Добавить категорию",
+            description = "Добавляет новую категорию продуктов",
+            tags = {"Categories"}
+    )
     public ResponseEntity<String> addCategory(@RequestBody String name) {
         categoryService.addCategory(name);
         return ResponseEntity.ok("Категория добавлена");

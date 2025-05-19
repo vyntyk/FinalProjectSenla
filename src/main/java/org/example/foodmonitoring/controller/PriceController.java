@@ -1,5 +1,6 @@
 package org.example.foodmonitoring.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.foodmonitoring.dto.PriceHistoryDTO;
@@ -27,12 +28,22 @@ public class PriceController {
 
     @SecurityRequirement(name = "JWT")
     @PostMapping
+    @Operation(
+            summary = "Добавление цены",
+            description = "Добавление новой цены для продукта в магазине",
+            tags = {"Prices"}
+    )
     public ResponseEntity<PriceHistoryDTO> add(@RequestBody @Validated PriceHistoryDTO dto) {
         return ResponseEntity.ok(service.addPrice(dto));
     }
 
     @SecurityRequirement(name = "JWT")
     @GetMapping("/history")
+    @Operation(
+            summary = "Получение истории цен",
+            description = "Получение истории цен для указанного продукта в заданном диапазоне дат",
+            tags = {"Prices"}
+    )
     public ResponseEntity<List<PriceHistoryDTO>> history(
             @RequestParam Long productId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
@@ -42,6 +53,11 @@ public class PriceController {
 
     @SecurityRequirement(name = "JWT")
     @GetMapping("/compare")
+    @Operation(
+            summary = "Сравнение цен",
+            description = "Сравнение цен на продукт в разных магазинах",
+            tags = {"Prices"}
+    )
     public ResponseEntity<List<PriceHistoryDTO>> compare(
             @RequestParam Long productId,
             @RequestParam List<Long> storeIds) {
