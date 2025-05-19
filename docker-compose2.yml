@@ -14,7 +14,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   app:
-    image: vyntyk/food-monitoring:1.1  # Используем скачанный образ
+    image: vyntyk/food-monitoring:1.2  # Используем скачанный образ
     container_name: foodmonitoring_app
     depends_on:
       - postgres
