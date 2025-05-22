@@ -44,8 +44,8 @@ public class ProductController {
     )
     public ResponseEntity<List<ProductDTO>> list(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) String category) {
-        return ResponseEntity.ok(service.list(name, category));
+            @RequestParam(required = false, name = "categoryId") Long categoryId) { // Changed parameter name and type
+        return ResponseEntity.ok(service.list(name, categoryId)); // Updated call
     }
 
     @SecurityRequirement(name = "JWT")

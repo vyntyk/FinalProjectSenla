@@ -18,13 +18,13 @@ public class ProductRepository {
         return Optional.ofNullable(em.find(Product.class, id));
     }
 
-    public List<Product> findAll(String nameFilter, String categoryFilter) {
+    public List<Product> findAll(String nameFilter, Long categoryIdFilter) {
         String jpql = "SELECT p FROM Product p WHERE "
                 + "(:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%',:name,'%'))) AND "
-                + "(:cat IS NULL OR LOWER(p.category) = LOWER(:cat))";
+                + "(:categoryId IS NULL OR p.category.id = :categoryId)"; // JOINs p.category implicitly
         return em.createQuery(jpql, Product.class)
                 .setParameter("name", nameFilter)
-                .setParameter("cat", categoryFilter)
+                .setParameter("categoryId", categoryIdFilter)
                 .getResultList();
     }
 

@@ -1,6 +1,7 @@
 package org.example.foodmonitoring.entity;
 
 import jakarta.persistence.*;
+import org.example.foodmonitoring.entity.Category; // Added import
 
 @Entity
 @Table(name = "products")
@@ -12,8 +13,9 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    // временно храним категорию как строку, позже можно вынести в отдельную сущность
-    private String category;
+    @ManyToOne(optional = true) // Added annotation
+    @JoinColumn(name = "category_id") // Added annotation
+    private Category category; // Changed type from String to Category
 
     private String description;
 
@@ -24,8 +26,8 @@ public class Product {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public Category getCategory() { return category; } // Changed return type
+    public void setCategory(Category category) { this.category = category; } // Changed parameter type
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

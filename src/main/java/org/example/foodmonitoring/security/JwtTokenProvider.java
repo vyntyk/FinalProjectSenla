@@ -26,10 +26,14 @@ public class JwtTokenProvider {
     @Value("${jwt.expiration}")
     private long validityInMilliseconds;
 
+    @Value("${jwt.secret}")
+    private String jwtSecretString;
+
     @PostConstruct
     protected void init() {
-        // Generate a secure key for HS512 algorithm as recommended by the error message
-        secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        // Decode the Base64 encoded secret string and create a SecretKey
+        byte[] secretBytes = Base64.getDecoder().decode(jwtSecretString);
+        secretKey = Keys.hmacShaKeyFor(secretBytes);
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -43,7 +47,7 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .signWith(secretKey, SignatureAlgorithm.HS512)
                 .compact();
     }
 
@@ -59,10 +63,5 @@ public class JwtTokenProvider {
 
     public String getUsername(String token) {
         return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getSubject();
-    }
-
-    public UserDetails loadUserByUsername(String username) {
-        // Заглушка: возвращаем пользователя с ролью USER
-        return new User(username, "", Collections.emptyList());
     }
 }
