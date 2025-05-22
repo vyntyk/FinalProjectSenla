@@ -62,8 +62,10 @@ public class UserService {
         user.setEmail(dto.getEmail());
         user.setPassword(encoderProvider.getEncoder().encode(dto.getPassword()));
 
-        Role role = roleRepository.findByName(dto.getRole()).orElseThrow();
-        user.setRoles(Set.of(role));
+        // Hardcode the role to "ROLE_USER"
+        Role userRole = roleRepository.findByName("ROLE_USER")
+            .orElseThrow(() -> new IllegalStateException("Default role ROLE_USER not found. Please ensure it exists in the database."));
+        user.setRoles(Set.of(userRole));
 
         userRepository.save(user);
     }

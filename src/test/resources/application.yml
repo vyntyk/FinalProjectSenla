@@ -1,0 +1,29 @@
+spring:
+  security:
+    user:
+      name: "testadmin" # Dummy value for ADMIN_USERNAME
+      password: "testpassword" # Dummy value for ADMIN_PASSWORD
+      roles: ADMIN
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE # Use H2 in-memory for tests
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop # For tests, create-drop is often suitable
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    show-sql: false # Usually false for tests unless debugging
+  liquibase:
+    enabled: false # Disable Liquibase for most unit/integration tests if schema is handled by ddl-auto
+
+jwt:
+  secret: "testjwtsecretkey1234567890123456789012345678901234567890" # Dummy JWT_SECRET (ensure it's long enough for the algorithm used)
+  expiration: 3600000
+
+# Optional: Disable Liquibase specifically for tests if not already handled
+# spring.liquibase.enabled=false
+# Or if using properties file:
+# spring.liquibase.enabled=false
