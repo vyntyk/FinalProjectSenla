@@ -34,7 +34,7 @@ public class AuthController {
     @Operation(
             operationId = "registerUser",
             summary = "Регистрация нового пользователя",
-            description = "Создание нового пользователя и назначение роли USER",
+            description = "Создание нового пользователя. Новому пользователю автоматически назначается роль 'ROLE_USER'.",
             tags = {"Authentication"})
     public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
         userService.register(userDTO);

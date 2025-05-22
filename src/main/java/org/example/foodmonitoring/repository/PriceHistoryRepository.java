@@ -32,13 +32,19 @@ public class PriceHistoryRepository {
     }
 
     public List<PriceHistory> findLatestByProductAndStores(Long productId, List<Long> storeIds) {
-        return em.createQuery(
-                        "SELECT ph FROM PriceHistory ph WHERE ph.product.id = :pid "
-                                + "AND ph.timestamp = (SELECT MAX(ph2.timestamp) FROM PriceHistory ph2 WHERE ph2.product.id = :pid AND ph2.store.id = ph.store.id) "
-                                + "AND ph.store.id IN :stores",
-                        PriceHistory.class)
-                .setParameter("pid", productId)
-                .setParameter("stores", storeIds)
+        String sql = "WITH RankedPrices AS ("
+                + " SELECT ph.id, ph.product_id, ph.store_id, ph.price, ph.timestamp, "
+                + "        ROW_NUMBER() OVER(PARTITION BY ph.store_id ORDER BY ph.timestamp DESC) as rn "
+                + " FROM price_history ph "
+                + " WHERE ph.product_id = :productId AND ph.store_id IN (:storeIds)"
+                + ") "
+                + "SELECT id, product_id, store_id, price, timestamp FROM RankedPrices WHERE rn = 1";
+
+        @SuppressWarnings("unchecked") // Suppress warning for native query
+        List<PriceHistory> result = em.createNativeQuery(sql, PriceHistory.class)
+                .setParameter("productId", productId)
+                .setParameter("storeIds", storeIds)
                 .getResultList();
+        return result;
     }
 }

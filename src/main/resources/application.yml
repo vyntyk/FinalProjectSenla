@@ -3,11 +3,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/foodmonitoring
+    url: jdbc:postgresql://postgres:5432/foodmonitoring
     username: postgres
-    password: 1234
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
       ddl-auto: none
@@ -15,7 +14,33 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
-
+    open-in-view: false
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
-    drop-first: true
+    enabled: true
+    drop-first: false
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  jackson:
+    serialization:
+      indent-output: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+  security:
+    user:
+      name: ${ADMIN_USERNAME}
+      password: ${ADMIN_PASSWORD}
+      roles: ADMIN
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 3600000
