@@ -2,6 +2,7 @@ package org.example.foodmonitoring.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull; // Added import
 
 public class ProductDTO {
 
@@ -12,8 +13,9 @@ public class ProductDTO {
     @NotBlank
     private String name;
 
-    @Schema(description = "Категория продукта", example = "Молочные продукты")
-    private String category;
+    @Schema(description = "Идентификатор категории", example = "1") // Updated Schema
+    @NotNull(message = "Category ID cannot be null") // Added NotNull
+    private Long categoryId; // Renamed and changed type
 
     @Schema(description = "Описание продукта", example = "Шоколадный батон")
     private String description;
@@ -25,8 +27,8 @@ public class ProductDTO {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public Long getCategoryId() { return categoryId; } // Updated getter
+    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; } // Updated setter
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

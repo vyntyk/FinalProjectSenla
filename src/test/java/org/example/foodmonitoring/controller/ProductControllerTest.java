@@ -43,15 +43,16 @@ class ProductControllerTest {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(1L);
         productDTO.setName("Test Product");
-        productDTO.setCategory("Food");
+        productDTO.setCategoryId(1L); // Changed from setCategory("Food")
         productDTO.setDescription("Test Description");
 
         Mockito.when(productService.create(any(ProductDTO.class))).thenReturn(productDTO);
 
+        // JSON payload now uses categoryId (Long)
         String json = """
         {
           "name": "Test Product",
-          "category": "Food",
+          "categoryId": 1, 
           "description": "Test Description"
         }
         """;
@@ -66,7 +67,7 @@ class ProductControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Test Product")))
-                .andExpect(jsonPath("$.category", is("Food")))
+                .andExpect(jsonPath("$.categoryId", is(1))) // Changed from category to categoryId
                 .andExpect(jsonPath("$.description", is("Test Description")));
     }
 
@@ -77,21 +78,21 @@ class ProductControllerTest {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(1L);
         productDTO.setName("Test Product");
-        productDTO.setCategory("Food");
+        productDTO.setCategoryId(1L); // Changed from setCategory("Food")
         productDTO.setDescription("Test Description");
 
-        Mockito.when(productService.list(anyString(), anyString())).thenReturn(List.of(productDTO));
+        Mockito.when(productService.list(anyString(), anyLong())).thenReturn(List.of(productDTO)); // anyString() to anyLong()
 
         // Act & Assert
         mockMvc.perform(get("/products")
                 .param("name", "Test")
-                .param("category", "Food"))
+                .param("categoryId", "1")) // Changed param name and value
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].name", is("Test Product")))
-                .andExpect(jsonPath("$[0].category", is("Food")))
+                .andExpect(jsonPath("$[0].categoryId", is(1))) // Changed from category to categoryId
                 .andExpect(jsonPath("$[0].description", is("Test Description")));
     }
 
@@ -102,15 +103,16 @@ class ProductControllerTest {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(1L);
         productDTO.setName("Updated Product");
-        productDTO.setCategory("Updated Food");
+        productDTO.setCategoryId(1L); // Changed from setCategory("Updated Food")
         productDTO.setDescription("Updated Description");
 
         Mockito.when(productService.update(any(ProductDTO.class))).thenReturn(productDTO);
 
+        // JSON payload now uses categoryId (Long)
         String json = """
         {
           "name": "Updated Product",
-          "category": "Updated Food",
+          "categoryId": 1,
           "description": "Updated Description"
         }
         """;
@@ -125,7 +127,7 @@ class ProductControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Updated Product")))
-                .andExpect(jsonPath("$.category", is("Updated Food")))
+                .andExpect(jsonPath("$.categoryId", is(1))) // Changed from category to categoryId
                 .andExpect(jsonPath("$.description", is("Updated Description")));
     }
 

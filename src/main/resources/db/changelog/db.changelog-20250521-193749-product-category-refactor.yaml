@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250521-193749-1 # Unique ID using timestamp
+      author: jules_ai_agent
+      preConditions:
+        - onFail: MARK_RAN
+        - columnExists:
+            tableName: products
+            columnName: category
+      changes:
+        - dropColumn:
+            tableName: products
+            columnName: category
+  - changeSet:
+      id: 20250521-193749-2 # Unique ID
+      author: jules_ai_agent
+      changes:
+        - addColumn:
+            tableName: products
+            columns:
+              - column:
+                  name: category_id
+                  type: BIGINT
+                  constraints:
+                    nullable: true # Category can be optional
+  - changeSet:
+      id: 20250521-193749-3 # Unique ID
+      author: jules_ai_agent
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: category_id
+            baseTableName: products
+            constraintName: fk_products_categories # Descriptive name
+            referencedColumnNames: id
+            referencedTableName: categories
+            # onDelete: SET NULL # Default NO ACTION is fine
+            # onUpdate: CASCADE

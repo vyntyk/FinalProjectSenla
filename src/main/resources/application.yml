@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://postgres:5432/foodmonitoring
     username: postgres
-    password: 1234
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -31,8 +31,8 @@ spring:
     cache: false
   security:
     user:
-      name: admin
-      password: admin
+      name: ${ADMIN_USERNAME}
+      password: ${ADMIN_PASSWORD}
       roles: ADMIN
 
 logging:
@@ -42,5 +42,5 @@ logging:
         security: DEBUG
 
 jwt:
-  secret: U29tZVNlY3JldEtleUluQmFzZTY0MTIzNDU2
+  secret: ${JWT_SECRET}
   expiration: 3600000
