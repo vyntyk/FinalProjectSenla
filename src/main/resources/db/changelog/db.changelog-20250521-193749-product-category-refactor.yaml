@@ -35,3 +35,45 @@ databaseChangeLog:
             referencedTableName: categories
             # onDelete: SET NULL # Default NO ACTION is fine
             # onUpdate: CASCADE
+  - changeSet:
+      id: 1
+      author: vyntyk4
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+              tableName: roles
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 1-insert-role-user
+      author: vyntyk2
+      preConditions:
+        - onFail: MARK_RAN
+        - and:
+            - tableExists:
+                tableName: roles
+            - sqlCheck:
+                expectedResult: "0"
+                sql: "SELECT COUNT(*) FROM roles WHERE name = 'ROLE_USER'"
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_USER

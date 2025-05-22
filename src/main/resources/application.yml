@@ -1,11 +1,11 @@
 server:
-  port: 8080
+  port: 8081
 
 spring:
   datasource:
-    url: jdbc:postgresql://postgres:5432/foodmonitoring
+    url: jdbc:postgresql://localhost:5432/foodmonitoring
     username: postgres
-    password: ${DB_PASSWORD}
+    password: 1234
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -31,8 +31,8 @@ spring:
     cache: false
   security:
     user:
-      name: ${ADMIN_USERNAME}
-      password: ${ADMIN_PASSWORD}
+      name: ${ADMIN_USERNAME:admin}
+      password: ${ADMIN_PASSWORD:admin123}
       roles: ADMIN
 
 logging:
@@ -42,5 +42,5 @@ logging:
         security: DEBUG
 
 jwt:
-  secret: ${JWT_SECRET}
-  expiration: 3600000
+  expiration: 3600000 # 1 час в миллисекундах
+  secret: QWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXowMTIzNDU2Nzg5YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXowMTIzNDU2Nzg5

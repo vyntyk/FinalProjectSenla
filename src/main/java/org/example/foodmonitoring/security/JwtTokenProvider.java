@@ -31,9 +31,14 @@ public class JwtTokenProvider {
 
     @PostConstruct
     protected void init() {
-        // Decode the Base64 encoded secret string and create a SecretKey
-        byte[] secretBytes = Base64.getDecoder().decode(jwtSecretString);
-        secretKey = Keys.hmacShaKeyFor(secretBytes);
+        try {
+            // Decode the Base64 encoded secret string and create a SecretKey
+            byte[] secretBytes = Base64.getDecoder().decode(jwtSecretString);
+            secretKey = Keys.hmacShaKeyFor(secretBytes);
+        } catch (IllegalArgumentException e) {
+            logger.error("JWT secret is not a valid Base64 string or too short: {}", e.getMessage());
+            throw new IllegalStateException("Invalid JWT secret configuration", e);
+        }
     }
 
     public String generateToken(UserDetails userDetails) {
