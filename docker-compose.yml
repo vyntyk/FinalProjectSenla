@@ -18,7 +18,7 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    container_name: foodmonitoring_app
+    container_name: foodmonitoring_app2
     depends_on:
       - postgres
     ports:

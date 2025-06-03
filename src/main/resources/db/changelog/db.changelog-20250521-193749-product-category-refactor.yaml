@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 20250521-193749-1 # Unique ID using timestamp
-      author: jules_ai_agent
+      author: vyntyk5
       preConditions:
         - onFail: MARK_RAN
         - columnExists:
@@ -13,7 +13,13 @@ databaseChangeLog:
             columnName: category
   - changeSet:
       id: 20250521-193749-2 # Unique ID
-      author: jules_ai_agent
+      author: vyntyk5
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            columnExists:
+              tableName: products
+              columnName: category_id
       changes:
         - addColumn:
             tableName: products
@@ -22,10 +28,16 @@ databaseChangeLog:
                   name: category_id
                   type: BIGINT
                   constraints:
-                    nullable: true # Category can be optional
+                    nullable: false # Category can be optional
   - changeSet:
       id: 20250521-193749-3 # Unique ID
-      author: jules_ai_agent
+      author: vyntyk5
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            foreignKeyConstraintExists:
+              foreignKeyName: fk_products_categories
+              # Можно добавить schemaName: public при необходимости
       changes:
         - addForeignKeyConstraint:
             baseColumnNames: category_id
